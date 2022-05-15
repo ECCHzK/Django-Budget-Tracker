@@ -1,0 +1,50 @@
+{% extends 'main/base.html' %}
+{% block title %} - Home{% endblock %}
+
+{% block content %}
+<!--Table is displayed if the user is logged in.-->
+{% if user.is_authenticated %}
+<table class="table table-sm table-striped table-borderless table-boredered">
+    <thead>
+        <tr>
+            <th>Date</th>
+            <th>Name</th>
+            <th>Amount</th>
+            <th></th>
+        </tr>
+    </thead>
+        <tbody>
+            {% for item in it %}
+            <tr>
+                <td>{{item.date}}</td>
+                <td>{{item.name}}</td>
+                <!--Checks if the amount is positive or negative in order to display them correctly.-->
+                {% if item.iscost != True %}
+                <td>${{item.amount}}</td>
+                {% else %}
+                <td>-${{item.amount}}</td>
+                {% endif %}
+                    <form method="post" action="#">
+                        {% csrf_token %}
+                    <td><button type="submit", name="del{{item.id}}", value="delete", class="btn btn-danger btn-sm">Delete</button></td>
+                    </form>
+            </tr>
+            {% endfor %}
+        </tbody>
+        <tfoot>
+            <tr>
+                <td></td>
+                <td><strong>Total</strong></td>
+                {% if neg != True %}
+                    <td>${{total}}</td>
+                {% else %}
+                    <td>-${{total}}</td>
+                {% endif %}
+            </tr>
+        </tfoot>
+    </table>
+    {% else %}
+        <!--Only displayed if the user isn't logged in.-->
+            <p><a href="{% url 'login' %}">Please login to continue.</a></p>
+    {% endif %}
+{% endblock %}

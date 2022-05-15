@@ -1,0 +1,30 @@
+{% extends 'main/base.html' %}
+{% block title %} - Add{% endblock %}
+{% block content %}
+    {% if user.is_authenticated %}
+    <form method="post" action="/add/" class="form-group">
+            {% csrf_token %}
+            <div class='col'>
+                <div class="form">
+                    {{form.date}}
+                </div>
+                <div class="form">
+                    {{form.name}}
+                </div>
+                <div class="form">
+                    {{form.amount}}
+                </div>
+                <div class="form">
+                    {{form.iscost}}
+                    <label class="btn btn-sm btn-outline-dark" for="id_iscost", style="position: relative; bottom:2px;">Expense</label>
+                </div>
+            </div>
+            <div class="g-1 row">
+                <button type="submit", name="add", class="btn btn-success", style="top: 5px;">Add To Budget</button>
+            </div>
+        </div>
+    </form>
+{% else %}
+    <a href="{% url 'login' %}">Please login to continue.</a></p>
+{% endif %}
+{% endblock %}
